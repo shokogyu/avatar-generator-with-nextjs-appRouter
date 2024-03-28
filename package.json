@@ -9,10 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "13.4.3",
+    "@dicebear/collection": "^7.1.1",
+    "@dicebear/core": "^7.1.1",
+    "@resvg/resvg-js": "^2.6.0",
+    "@types/file-saver": "^2.0.7",
+    "exiftool-vendored": "^23.7.0",
+    "file-saver": "^2.0.5",
+    "next": "^13.5.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "sharp": "^0.32.6"
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.0.0-beta.0",

@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "typescript.tsdk": "node_modules/.pnpm/typescript@5.0.4/node_modules/typescript/lib",
+    "workbench.colorCustomizations": {
+      "titleBar.activeBackground": "#09aa1e", // タイトルバーの背景色
+      "titleBar.activeForeground": "#ffffff", // タイトルバーの文字色
+      "activityBar.background": "#09aa1e", // アクティビティバーの背景色
+      "activityBar.foreground": "#ffffff" // アクティビティバーの文字色
+    }
+  }
+}
