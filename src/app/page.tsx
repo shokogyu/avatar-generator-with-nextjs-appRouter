@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEventHandler, MouseEventHandler, useCallback, useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 
 // import { saveAs } from "file-saver";
 
@@ -12,14 +13,6 @@ export default function Home() {
   const [url, setUrl] = useState(`https://avatar.oxro.io/avatar.svg?name=Eddie&background=ff0000`);
   const [options, setOptions] = useState<{
     [key: string]: string | number | boolean;
-
-    // color?: string;
-    // bold?: boolean;
-    // rounded?: number;
-    // isRounded?: boolean;
-    // fontSize?: number;
-    // width?: number;
-    // height?: number;
   }>({});
   const [optionParams, setOptionParams] = useState("");
 
@@ -52,7 +45,7 @@ export default function Home() {
       setOptions((prevOptions) => {
         if (e.target.type === "checkbox") {
           value = e.target.checked;
-        } else if (e.target.type === "text") {
+        } else if (e.target.type === "text" || e.target.type === "number") {
           value = e.target.value;
         }
         return { ...prevOptions, [optionParamKey]: value };
@@ -78,6 +71,7 @@ export default function Home() {
       <input type="color" value={`#${color}`} onChange={handleColorChange} />
       <input type="checkbox" name="bold" id="bold" data-option-param-key="bold" onChange={handleOptionsChange} />
       <label htmlFor="bold">太字</label>
+
       <input
         type="checkbox"
         name="isRounded"
@@ -86,8 +80,22 @@ export default function Home() {
         onChange={handleOptionsChange}
       />
       <label htmlFor="isRounded">角丸</label>
-      <input type="text" name="fontSize" id="fontSize" data-option-param-key="fontSize" onBlur={handleOptionsChange} />
+
+      <input type="number" name="rounded" id="rounded" data-option-param-key="rounded" onChange={handleOptionsChange} />
+      <label htmlFor="rounded">角丸の大きさ</label>
+
+      <input
+        type="number"
+        name="fontSize"
+        id="fontSize"
+        data-option-param-key="fontSize"
+        onBlur={handleOptionsChange}
+      />
       <label htmlFor="fontSize">フォントサイズ</label>
+      <input type="number" name="width" id="width" data-option-param-key="width" onBlur={handleOptionsChange} />
+      <label htmlFor="width">幅</label>
+      <input type="number" name="length" id="length" data-option-param-key="length" onBlur={handleOptionsChange} />
+      <label htmlFor="length">文字数</label>
     </div>
   );
 }
