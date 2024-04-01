@@ -5,7 +5,7 @@ import Image from "next/image";
 
 // import { saveAs } from "file-saver";
 
-import DownloadButton from "@/components/DownloadButton";
+import { DownloadButton } from "@/components/DownloadButton";
 
 export default function Home() {
   const [name, setName] = useState("Eddie");
