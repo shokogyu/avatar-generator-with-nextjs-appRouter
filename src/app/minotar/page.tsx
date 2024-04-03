@@ -1,20 +1,24 @@
 "use client";
 
 // pages/index.js
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { parseJSON } from "exiftool-vendored";
 
 import { DownloadButton } from "@/components/DownloadButton";
 
 console.log("aaaa");
 
 export default function Minotar() {
-  const [username, setUsername] = useState("");
-  const [avatarUrl, setAvatarUrl] = useState("");
+  const [user, setUser] = useState("steve"); // username or uuid
+  const [uuid, setUuid] = useState(""); // username or uuid
+  const [avatarUrl, setAvatarUrl] = useState("https://minotar.net/avatar/steve");
   const [downloadUrl, setDownloadUrl] = useState("");
 
-  const handleGenerateAvatar = async () => {
+  const fetchData = async (userInfo: string) => {
     try {
-      const response = await fetch(`https://minotar.net/avatar/${username}`);
+      const response = await fetch(`https://minotar.net/avatar/${userInfo}`);
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -23,42 +27,53 @@ export default function Minotar() {
       console.error("Error fetching avatar:", error);
     }
   };
+  useEffect(() => {
+    fetchData(user);
+  }, []); // 空の依存配列を渡すことで、マウント時にのみ実行されるようにする
+
+  const handleGenerateAvatar = () => {
+    // ユーザー名の入力を元にアバターを生成する
+    fetchData(user);
+  };
+
+  const getRandomUUID = async () => {
+    try {
+      const response = await fetch("https://www.uuidtools.com/api/generate/v4/count/1");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.text(); // uuid toolsは直接文字列のテキストを返却する
+      const json = await JSON.parse(data);
+      const uuid = await json[0];
+      setUuid(uuid);
+      fetchData(uuid);
+    } catch (error) {
+      console.error("Error fetching UUID:", error);
+    }
+  };
+
+  const handleGenerateAvatarByUuid = () => {
+    console.log("uuid", uuid);
+    getRandomUUID();
+    console.log("uuid2", uuid);
+    if (uuid) {
+      fetchData(uuid);
+    }
+    console.log("uuid3", uuid);
+  };
 
   return (
     <div>
       <h1>Minotar Avatar Generator</h1>
-      <input
-        type="text"
-        placeholder="Enter Minecraft username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
+      <input type="text" placeholder="Enter Minecraft user" value={user} onChange={(e) => setUser(e.target.value)} />
       <button onClick={handleGenerateAvatar}>Generate Avatar</button>
       {avatarUrl && (
         <div>
           <img src={avatarUrl} alt="Avatar" />
-          {/* <button onClick={handleDownloadAvatar}>Download Avatar</button> */}
           <DownloadButton url={avatarUrl} />
         </div>
       )}
+      <button onClick={handleGenerateAvatarByUuid}>Random UUID</button>
     </div>
   );
 }
-
-// import { ChangeEventHandler, MouseEventHandler, useCallback, useEffect, useMemo, useState } from "react";
-
-// import { v4 as uuidv4 } from "uuid";
-
-// export default function Minotar() {
-//   const [uuid, setUuid] = useState(uuidv4());
-//   const [url, setUrl] = useState(`https://minotar.net/avatar/${uuid}`);
-//   console.log(uuid);
-
-//   return (
-//     <div>
-//       <h1>Minotar Avatar Generator</h1>
-//       <img src={url} alt="" id="avatarImg" />
-//       <img src="https://minotar.net/avatar/user/100.png" alt="" id="avatarImg" />
-//     </div>
-//   );
-// }
