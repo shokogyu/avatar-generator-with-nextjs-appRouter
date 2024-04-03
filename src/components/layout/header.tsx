@@ -11,7 +11,7 @@ export const Header = () => {
   const navs = [
     {
       id: "simple-initials",
-      path: "/",
+      path: "/simple-initials",
       label: "Simple Initials",
       image: "/header-nav-icon.jpeg",
     },
@@ -30,9 +30,9 @@ export const Header = () => {
   ];
 
   return (
-    <header className="h-screen basis-1/4 space-y-8 border-r border-r-indigo-300 p-4">
+    <header className="h-screen basis-1/4 flex-shrink-0 pt-9 space-y-8 border-r border-r-indigo-300 p-4">
       <Link href="/" className="text-4xl font-black">
-        Fun Avatar Generator
+        Fun Avatar<br/>Generator
       </Link>
       <nav>
         <ul className="space-y-2">
