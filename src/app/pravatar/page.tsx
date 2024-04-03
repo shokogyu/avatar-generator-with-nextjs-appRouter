@@ -1,30 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { ChangeEventHandler, useCallback, useEffect, useState } from "react";
 
 import { DownloadButton } from "@/components/DownloadButton";
 
 export default function Pravatar() {
+  const [size, setSize] = useState(300);
   const [avatarUrl, setAvatarUrl] = useState("https://i.pravatar.cc/300");
+  const [imgId, setImgId] = useState(0);
 
-  const generateAvatar = () => {
-    // 0から9999までのランダムな数値を生成
+  const getRamdomId = () => {
+    // 0〜70までのランダムな数値を生成
     const randomId = Math.floor(Math.random() * 71);
-    // ランダムなアバターURLを生成
-    const url = `https://i.pravatar.cc/300?img=${randomId}`;
-    setAvatarUrl(url);
+    setImgId(randomId);
   };
+
+  const handleSizeChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    if (!e.target.value) return;
+
+    const sizeValue = Number(e.target.value);
+    setSize(sizeValue);
+  };
+
+  const generateAvatar = useCallback(() => {
+    if (imgId !== null) {
+      setAvatarUrl(`https://i.pravatar.cc/${size}?img=${imgId}`);
+    } else {
+      setAvatarUrl(`https://i.pravatar.cc/${size}`);
+    }
+  }, [size, imgId]);
+
+  useEffect(() => {
+    generateAvatar();
+  }, [generateAvatar, imgId, size]);
 
   return (
     <div>
       <h1>Minotar Avatar Generator</h1>
+      <input type="range" value={size} min="0" max={1000} onChange={handleSizeChange} />
+
       {avatarUrl && (
         <div>
           <img src={avatarUrl} alt="Avatar" />
           <DownloadButton url={avatarUrl} />
         </div>
       )}
-      <button onClick={generateAvatar}>Random</button>
+      <button onClick={getRamdomId}>Random</button>
     </div>
   );
 }
