@@ -22,7 +22,7 @@ export default function Home() {
       </p>
       <p className="text-md text-center">
         Welcome to our site! Here, you can easily create various styles of avatar images. Are you struggling with your
-        daily icon settings? Whether it's for social media, games, or profile pictures, we have a wide range of icons
+        daily icon settings? Whether it&apos;s for social media, games, or profile pictures, we have a wide range of icons
         suitable for various everyday scenes. Find your favorite style and showcase your unique profile!
       </p>
     </div>
