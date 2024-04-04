@@ -7,7 +7,7 @@ import { DownloadButton } from "@/components/DownloadButton";
 export default function Pravatar() {
   const [size, setSize] = useState(300);
   const [avatarUrl, setAvatarUrl] = useState("https://i.pravatar.cc/300");
-  const [imgId, setImgId] = useState(0);
+  const [imgId, setImgId] = useState<Number | null>(null);
 
   const getRamdomId = () => {
     // 0〜70までのランダムな数値を生成
@@ -37,7 +37,7 @@ export default function Pravatar() {
   return (
     <div>
       <h1>Minotar Avatar Generator</h1>
-      <input type="range" value={size} min="0" max={1000} onChange={handleSizeChange} />
+      <input type="range" value={size} min="0" max="1000" onChange={handleSizeChange} />
 
       {avatarUrl && (
         <div>
