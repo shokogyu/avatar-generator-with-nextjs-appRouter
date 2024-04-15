@@ -11,15 +11,21 @@
   "dependencies": {
     "@dicebear/collection": "^7.1.1",
     "@dicebear/core": "^7.1.1",
+    "@radix-ui/react-slider": "^1.1.2",
     "@resvg/resvg-js": "^2.6.0",
     "@types/file-saver": "^2.0.7",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
     "exiftool-vendored": "^23.7.0",
     "file-saver": "^2.0.5",
+    "lucide-react": "^0.368.0",
     "next": "^13.5.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "server-only": "^0.0.1",
     "sharp": "^0.32.6",
+    "tailwind-merge": "^2.2.2",
+    "tailwindcss-animate": "^1.0.7",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
