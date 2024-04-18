@@ -5,24 +5,26 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { v4 as uuidv4 } from "uuid";
+
 export const Header = () => {
   const pathname = usePathname();
 
   const navs = [
     {
-      id: "simple-initials",
+      id: uuidv4(),
       path: "/simple-initials",
       label: "Simple Initials",
       image: "/header-nav-icon.jpeg",
     },
     {
-      id: "minotar",
+      id: uuidv4(),
       path: "/minotar",
       label: "Minotar",
       image: "/header-nav-icon.jpeg",
     },
     {
-      id: "pravatar",
+      id: uuidv4(),
       path: "/pravatar",
       label: "Pravatar",
       image: "/header-nav-icon.jpeg",
