@@ -6,8 +6,8 @@ import { DownloadButton } from "@/components/DownloadButton";
 
 export default function Pravatar() {
   const [size, setSize] = useState(300);
-  const [avatarUrl, setAvatarUrl] = useState("https://i.pravatar.cc/300");
-  const [imgId, setImgId] = useState<Number | null>(null);
+  const [imgId, setImgId] = useState(0);
+  const [avatarUrl, setAvatarUrl] = useState(`https://i.pravatar.cc/${size}?img=${imgId}`);
 
   const getRamdomId = () => {
     // 0〜70までのランダムな数値を生成
@@ -23,16 +23,16 @@ export default function Pravatar() {
   };
 
   const generateAvatar = useCallback(() => {
-    if (imgId !== null) {
-      setAvatarUrl(`https://i.pravatar.cc/${size}?img=${imgId}`);
-    } else {
-      setAvatarUrl(`https://i.pravatar.cc/${size}`);
-    }
+    setAvatarUrl(`https://i.pravatar.cc/${size}?img=${imgId}`);
   }, [size, imgId]);
 
   useEffect(() => {
     generateAvatar();
   }, [generateAvatar, imgId, size]);
+
+  console.log(imgId);
+  console.log(size);
+  console.log(avatarUrl);
 
   return (
     <div>

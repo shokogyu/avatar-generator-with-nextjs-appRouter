@@ -1,17 +1,16 @@
 "use client";
 
-
 import { ChangeEventHandler, RefAttributes, useCallback, useEffect, useMemo, useState } from "react";
 
 import { funEmoji } from "@dicebear/collection";
 import { createAvatar } from "@dicebear/core";
+import { SliderProps } from "@radix-ui/react-slider";
 
 // import { createAvatar } from "@dicebear/core";
 // import * as style from "@dicebear/fun-emoji";
 
 import { DownloadButton } from "@/components/DownloadButton";
 import { Slider } from "@/components/ui/slider";
-import { SliderProps } from "@radix-ui/react-slider";
 
 enum EyeStyle {
   Closed = "closed",
@@ -105,30 +104,6 @@ export default function FunEmoji() {
     }
     updateOptions(e.target.name, value);
   };
-  const handleRangeChange1: any = (e) => {
-    console.log(e);
-    console.log(e.name);
-    const fieldName = e.name;
-    const value = Number(e.value);
-    switch (fieldName) {
-      case "rotate":
-        setRotate(value);
-        break;
-      case "scale":
-        setScale(value);
-        break;
-      case "size":
-        setSize(value);
-        break;
-      case "translateX":
-        setTranslateX(value);
-        break;
-      case "translateY":
-        setTranslateY(value);
-        break;
-    }
-    updateOptions(e.name, value);
-  };
 
   const handleColorChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const hexWithoutHashtag = e.target.value.slice(1);
@@ -148,14 +123,10 @@ export default function FunEmoji() {
   const generateAvatar = useCallback(() => {
     const keys = Object.keys(options);
     keys.forEach((key) => {
-      optionParams += `&${key}=${options[key]}`;
+      // optionParams += `&${key}=${options[key]}`;
     });
     setAvatarUrl(`https://api.dicebear.com/8.x/fun-emoji/svg?seed=${seed}${optionParams}`);
-    if (options) {
-    } else {
-      // setAvatarUrl(`https://api.dicebear.com/8.x/fun-emoji/svg?seed=${seed}`);
-    }
-  }, [seed, options]);
+  }, [seed, options, optionParams]);
 
   console.log(avatarUrl);
 
@@ -163,13 +134,8 @@ export default function FunEmoji() {
     generateAvatar();
   }, [generateAvatar, seed, options]);
 
-
-  // createAvatar(funEmoji, {
-  //   eyes: ["closed","closed2","crying"]
-  // });
-
   return (
-    <div>
+    <section>
       <h1>Fun Emoji Avatar Generator</h1>
 
       {avatarUrl && (
@@ -183,21 +149,22 @@ export default function FunEmoji() {
       <input type="checkbox" name="flip" id="flip" className="" onChange={handleCheckboxChange} />
       <label htmlFor="flip">反転する</label>
 
-<div>
-  <div className="flex items-center justify-between">
-      <label htmlFor="rotate">回転</label>
-        <span>{rotate}</span>
-  </div>
-      {/* <input type="range" name="rotate" id="rotate" min={0} max={360} value={rotate} onChange={handleRangeChange} className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-300 dark:bg-gray-700"/> */}
-      <input type="range" name="rotate" id="rotate" min={0} max={360} value={rotate} onChange={handleRangeChange} className="block w-full cursor-pointer"/>
-      {/* <Slider name="rotate" id="rotate" max={360} defaultValue={[rotate]}  step={1} onValueChange={handleRangeChange1} /> */}
-      {/* <Slider name="rotate" id="rotate" max={360} defaultValue={[rotate]} value={[rotate]} step={1} onValueChange={()=>handleRangeChange1('rotate')} /> */}
-      
-      {/* <Slider defaultValue={[33]} max={360} step={1}/> */}
-
-</div>
-
-
+      <div>
+        <div className="flex items-center justify-between">
+          <label htmlFor="rotate">回転</label>
+          <span>{rotate}</span>
+        </div>
+        <input
+          type="range"
+          name="rotate"
+          id="rotate"
+          min={0}
+          max={360}
+          value={rotate}
+          onChange={handleRangeChange}
+          className="block w-full cursor-pointer"
+        />
+      </div>
 
       <input type="range" name="scale" id="scale" min={0} max={200} value={scale} onChange={handleRangeChange} />
       <label htmlFor="scale">スケール</label>
@@ -278,7 +245,6 @@ export default function FunEmoji() {
           ))}
         </ul>
       </div>
-    </div>
+    </section>
   );
 }
-

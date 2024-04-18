@@ -1,9 +1,6 @@
 "use client";
 
-// pages/index.js
 import { useEffect, useState } from "react";
-
-import { parseJSON } from "exiftool-vendored";
 
 import { DownloadButton } from "@/components/DownloadButton";
 
