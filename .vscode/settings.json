@@ -11,5 +11,5 @@
   "typescript.preferences.importModuleSpecifier": "non-relative",
   "typescript.tsdk": "node_modules/.pnpm/typescript@5.0.4/node_modules/typescript/lib",
   "cSpell.words": ["ianvs"],
-  "editor.hover.enabled": true
+  "editor.hover.enabled": true,
 }

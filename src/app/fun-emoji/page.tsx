@@ -1,18 +1,19 @@
 "use client";
 
-import { ChangeEventHandler, RefAttributes, useCallback, useEffect, useMemo, useState } from "react";
-
-import { funEmoji } from "@dicebear/collection";
-import { createAvatar } from "@dicebear/core";
-import { SliderProps } from "@radix-ui/react-slider";
-
-// import { createAvatar } from "@dicebear/core";
-// import * as style from "@dicebear/fun-emoji";
+import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
 
 import { DownloadButton } from "@/components/DownloadButton";
-import { Slider } from "@/components/ui/slider";
+import BackgroundColor from "@/app/fun-emoji/options/BackgroundColor";
+import BackgroundType from "@/app/fun-emoji/options/BackgroundType";
+import Eyes from "@/app/fun-emoji/options/Eyes";
+import Flip from "@/app/fun-emoji/options/flip";
+import Mouth from "@/app/fun-emoji/options/Mouth";
+import Rotate from "@/app/fun-emoji/options/Rotate";
+import Scale from "@/app/fun-emoji/options/Scale";
+import TranslateX from "@/app/fun-emoji/options/TranslateX";
+import TranslateY from "@/app/fun-emoji/options/TranslateY";
 
-enum EyeStyle {
+export enum EyeStyle {
   Closed = "closed",
   Closed2 = "closed2",
   Crying = "crying",
@@ -30,7 +31,7 @@ enum EyeStyle {
   Wink2 = "wink2",
 }
 
-enum MouthStyle {
+export enum MouthStyle {
   Cute = "cute",
   Drip = "drip",
   FaceMask = "faceMask",
@@ -123,7 +124,11 @@ export default function FunEmoji() {
   const generateAvatar = useCallback(() => {
     const keys = Object.keys(options);
     keys.forEach((key) => {
-      // optionParams += `&${key}=${options[key]}`;
+      if (key === "size") {
+        return;
+      }
+      optionParams += "&" + key + "=" + options[key];
+      // optionParams += `&${key}=` + options[key];
     });
     setAvatarUrl(`https://api.dicebear.com/8.x/fun-emoji/svg?seed=${seed}${optionParams}`);
   }, [seed, options, optionParams]);
@@ -135,115 +140,92 @@ export default function FunEmoji() {
   }, [generateAvatar, seed, options]);
 
   return (
-    <section>
-      <h1>Fun Emoji Avatar Generator</h1>
+    <section className="mx-auto my-8 max-h-screen w-11/12 rounded-lg bg-gray-100 p-8">
+      <div className="h-2/5">
+        {/* <h1 className="text-center text-3xl font-bold">Fun Emoji Avatar Generator</h1> */}
 
-      {avatarUrl && (
-        <div>
-          <img src={avatarUrl} alt="Avatar" />
-          <DownloadButton url={avatarUrl} />
-        </div>
-      )}
-      <button onClick={handleRamdomButtonClick}>Random</button>
-
-      <input type="checkbox" name="flip" id="flip" className="" onChange={handleCheckboxChange} />
-      <label htmlFor="flip">反転する</label>
-
-      <div>
-        <div className="flex items-center justify-between">
-          <label htmlFor="rotate">回転</label>
-          <span>{rotate}</span>
-        </div>
-        <input
-          type="range"
-          name="rotate"
-          id="rotate"
-          min={0}
-          max={360}
-          value={rotate}
-          onChange={handleRangeChange}
-          className="block w-full cursor-pointer"
-        />
+        {avatarUrl && (
+          <div className="">
+            <div className="mx-auto size-60 text-center">
+              <img src={avatarUrl} alt="Avatar" className="" />
+            </div>
+            <div className="flex justify-center space-x-2">
+              <DownloadButton url={avatarUrl} />
+              <button onClick={handleRamdomButtonClick} className="block">
+                <img src="./icon/random.svg" alt="Random" className="bg-slate-300 size-8 rounded-md" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
 
-      <input type="range" name="scale" id="scale" min={0} max={200} value={scale} onChange={handleRangeChange} />
-      <label htmlFor="scale">スケール</label>
-
-      <input type="range" name="size" id="size" min={1} max={700} value={size} onChange={handleRangeChange} />
-      <label htmlFor="size">サイズ</label>
-
-      <input
-        type="range"
-        name="translateX"
-        id="translateX"
-        min={-100}
-        max={100}
-        value={translateX}
-        onChange={handleRangeChange}
-      />
-      <label htmlFor="translateX">translateX</label>
-
-      <input
-        type="range"
-        name="translateY"
-        id="translateY"
-        min={-100}
-        max={100}
-        value={translateY}
-        onChange={handleRangeChange}
-      />
-      <label htmlFor="translateY">translateY</label>
-
-      <input type="color" name="backgroundColor" id="backgroundColor" onChange={handleColorChange} />
-      <label htmlFor="backgroundColor">背景色</label>
-
-      <p>背景タイプ</p>
-      <input
-        type="radio"
-        name="backgroundType"
-        id="gradientLinear"
-        value="gradientLinear"
-        onChange={handleRadioChange}
-      />
-      <label htmlFor="gradientLinear">グラデーション</label>
-      <input type="radio" name="backgroundType" id="solid" value="solid" onChange={handleRadioChange} />
-      <label htmlFor="solid">単色</label>
-
-      <div>
-        <p>Eyes</p>
-        <ul className="grid grid-flow-col-dense">
-          {Object.entries(EyeStyle).map(([key, value]) => (
-            <li key={key}>
-              <input type="radio" name="eyes" id={`eye-${key}`} value={value} onChange={handleRadioChange} />
-              <label htmlFor={`eye-${key}`}>
-                <img
-                  src={`https://api.dicebear.com/8.x/fun-emoji/svg?eyes=${value}&mouth=lilSmile`}
-                  width={optionIconSize}
-                  height={optionIconSize}
-                  alt=""
-                />
-              </label>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div>
-        <p>Mouth</p>
-        <ul className="grid grid-flow-col-dense">
-          {Object.entries(MouthStyle).map(([key, value]) => (
-            <li key={key}>
-              <input type="radio" name="mouth" id={`mouth-${key}`} value={value} onChange={handleRadioChange} />
-              <label htmlFor={`mouth-${key}`}>
-                <img
-                  src={`https://api.dicebear.com/8.x/fun-emoji/svg?eyes=closed&mouth=${value}`}
-                  width={optionIconSize}
-                  height={optionIconSize}
-                  alt=""
-                />
-              </label>
-            </li>
-          ))}
-        </ul>
+      <div className="mt-7 h-3/5 space-y-8  border-t border-gray-300 pt-7">
+        <div className="space-y-8 overflow-y-auto mixin/field-layout:flex mixin/field-layout:items-center mixin/field-layout:gap-3 mixin/label:text-sm mixin/label:font-bold">
+          <div className="">
+            <ul className="grid grid-cols-3 gap-6">
+              <li className="mixin/field-layout">
+                <Flip handleCheckboxChange={handleCheckboxChange} />
+              </li>
+              <li className="mixin/field-layout">
+                <BackgroundColor handleColorChange={handleColorChange} />
+              </li>
+            </ul>
+          </div>
+          <div>
+            <div
+              className="
+                  mixin/range:mt-1 mixin/range:block
+                  mixin/label-area:flex mixin/range:w-full mixin/range:cursor-pointer
+                  mixin/label-area:items-center mixin/label-area:justify-between
+                  mixin/num:text-xs"
+            >
+              <ul className="grid grid-cols-3 gap-6">
+                <li>
+                  <Rotate handleRangeChange={handleRangeChange} rotate={rotate} />
+                </li>
+                <li>
+                  <Scale handleRangeChange={handleRangeChange} scale={scale} />
+                </li>
+                <li>
+                  <div className="mixin/label-area">
+                    <label htmlFor="size" className="mixin/label">
+                      サイズ
+                    </label>
+                    <span className="mixin/num">{size}</span>
+                  </div>
+                  <input
+                    type="range"
+                    name="size"
+                    id="size"
+                    min={1}
+                    max={700}
+                    value={size}
+                    onChange={handleRangeChange}
+                    className="mixin/range"
+                  />
+                </li>
+                <li>
+                  <TranslateX handleRangeChange={handleRangeChange} translateX={translateX} />
+                </li>
+                <li>
+                  <TranslateY handleRangeChange={handleRangeChange} translateY={translateY} />
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <BackgroundType handleRadioChange={handleRadioChange} />
+          </div>
+          <div
+            className="
+            mixin/icon-radio:peer
+            mixin/icon-label:block mixin/icon-list:grid
+            mixin/icon-radio:hidden mixin/icon-list:grid-flow-col-dense mixin/icon-list:gap-2 mixin/icon-label:border-[#2196f3]"
+          >
+            <Eyes handleRadioChange={handleRadioChange} optionIconSize={optionIconSize} />
+            <Mouth handleRadioChange={handleRadioChange} optionIconSize={optionIconSize} />
+          </div>
+        </div>
       </div>
     </section>
   );

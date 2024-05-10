@@ -11,9 +11,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ja">
       <body className="bg-gray-200">
-        <div className="flex">
+        <div className="">
           <Header />
-          <main className="p-8">{children}</main>
+          <main className="ml-auto w-9/12">{children}</main>
         </div>
       </body>
     </html>
