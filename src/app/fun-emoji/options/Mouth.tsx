@@ -1,6 +1,6 @@
 import React from "react";
 
-import { MouthStyle } from "@/app/fun-emoji/page";
+import { MouthStyle } from "@/libs/constants";
 
 type Props = {
   optionIconSize: number;

@@ -1,6 +1,8 @@
 "use client";
 
-import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
+import { ChangeEventHandler, useCallback, useEffect, useState } from "react";
+
+import { EyeStyle, MouthStyle } from "@/libs/constants";
 
 import { DownloadButton } from "@/components/DownloadButton";
 import BackgroundType from "@/app/fun-emoji/options/BackgroundType";
@@ -11,42 +13,6 @@ import Rotate from "@/app/fun-emoji/options/Rotate";
 import Scale from "@/app/fun-emoji/options/Scale";
 import TranslateX from "@/app/fun-emoji/options/TranslateX";
 import TranslateY from "@/app/fun-emoji/options/TranslateY";
-
-export enum EyeStyle {
-  Closed = "closed",
-  Closed2 = "closed2",
-  Crying = "crying",
-  Cute = "cute",
-  Glasses = "glasses",
-  Love = "love",
-  Pissed = "pissed",
-  Plain = "plain",
-  Sad = "sad",
-  Shades = "shades",
-  SleepClose = "sleepClose",
-  Stars = "stars",
-  TearDrop = "tearDrop",
-  Wink = "wink",
-  Wink2 = "wink2",
-}
-
-export enum MouthStyle {
-  Cute = "cute",
-  Drip = "drip",
-  FaceMask = "faceMask",
-  KissHeart = "kissHeart",
-  LilSmile = "lilSmile",
-  Pissed = "pissed",
-  Plain = "plain",
-  Sad = "sad",
-  Shout = "shout",
-  Shy = "shy",
-  Sick = "sick",
-  SmileLol = "smileLol",
-  SmileTeeth = "smileTeeth",
-  TongueOut = "tongueOut",
-  WideSmile = "wideSmile",
-}
 
 type Options = {
   flip?: boolean;
@@ -132,7 +98,7 @@ export default function FunEmoji() {
         options[key]?.forEach((bgColor) => {
           newBgColorValue += bgColor + ",";
         });
-        optionParams += "&" + key + "=" + newBgColorValue;
+        optionParams += `&${key}=${newBgColorValue}`;
       } else {
         optionParams += "&" + key + "=" + options[key];
       }
@@ -140,7 +106,7 @@ export default function FunEmoji() {
     setAvatarUrl(`https://api.dicebear.com/8.x/fun-emoji/svg?seed=${seed}${optionParams}`);
   }, [seed, options, optionParams]);
 
-  console.log(options);
+  // console.log(options);
 
   useEffect(() => {
     generateAvatar();
@@ -191,24 +157,6 @@ export default function FunEmoji() {
                 </li>
                 <li>
                   <Scale handleRangeChange={handleRangeChange} scale={scale} />
-                </li>
-                <li>
-                  <div className="mixin/label-area">
-                    <label htmlFor="size" className="mixin/label">
-                      サイズ
-                    </label>
-                    <span className="mixin/num">{size}</span>
-                  </div>
-                  <input
-                    type="range"
-                    name="size"
-                    id="size"
-                    min={1}
-                    max={700}
-                    value={size}
-                    onChange={handleRangeChange}
-                    className="mixin/range"
-                  />
                 </li>
                 <li>
                   <TranslateX handleRangeChange={handleRangeChange} translateX={translateX} />

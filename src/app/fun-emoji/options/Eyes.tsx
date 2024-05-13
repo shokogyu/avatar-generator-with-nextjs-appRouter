@@ -1,6 +1,6 @@
 import React from "react";
 
-import { EyeStyle } from "@/app/fun-emoji/page";
+import { EyeStyle } from "@/libs/constants";
 
 type Props = {
   optionIconSize: number;
