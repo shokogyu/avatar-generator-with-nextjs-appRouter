@@ -1,4 +1,4 @@
-import { Header } from "@/components/layout/header";
+import { Header } from "@/components/layout/Header";
 
 import "./globals.css";
 
@@ -12,8 +12,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="ja">
       <body className="bg-gray-200">
         <div className="">
-          <Header />
-          <main className="ml-auto w-9/12">{children}</main>
+          <Header/>
+          <main className="ml-auto w-10/12">{children}</main>
         </div>
       </body>
     </html>

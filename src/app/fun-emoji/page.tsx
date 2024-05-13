@@ -3,7 +3,6 @@
 import { ChangeEventHandler, useCallback, useEffect, useMemo, useState } from "react";
 
 import { DownloadButton } from "@/components/DownloadButton";
-import BackgroundColor from "@/app/fun-emoji/options/BackgroundColor";
 import BackgroundType from "@/app/fun-emoji/options/BackgroundType";
 import Eyes from "@/app/fun-emoji/options/Eyes";
 import Flip from "@/app/fun-emoji/options/flip";
@@ -56,7 +55,7 @@ type Options = {
   raduis?: number;
   size?: number;
   backgroundColor?: string[];
-  backgroundType?: string[];
+  backgroundType?: "solid" | "gradientLinear";
   translateX?: number;
   translateY?: number;
   eyes?: EyeStyle[];
@@ -70,6 +69,8 @@ export default function FunEmoji() {
   const [size, setSize] = useState(300);
   const [translateX, setTranslateX] = useState(0);
   const [translateY, setTranslateY] = useState(0);
+  const [backgroundType, setBackgroundType] = useState("solid");
+  const [backgroundColor, setBackgroundColor] = useState<string[]>([]);
   const [avatarUrl, setAvatarUrl] = useState(`https://api.dicebear.com/8.x/fun-emoji/svg?seed=${seed}`);
   const [options, setOptions] = useState<Options>({ size: size });
   let optionParams = "";
@@ -77,8 +78,10 @@ export default function FunEmoji() {
 
   const handleRamdomButtonClick = () => {
     let x = Math.floor(Math.random() * 1000);
+    setOptions({});
     setSeed(x);
   };
+
   const handleCheckboxChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     updateOptions(e.target.name, e.target.checked);
   };
@@ -106,16 +109,11 @@ export default function FunEmoji() {
     updateOptions(e.target.name, value);
   };
 
-  const handleColorChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const hexWithoutHashtag = e.target.value.slice(1);
-    updateOptions(e.target.name, hexWithoutHashtag);
-  };
-
   const handleRadioChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     updateOptions(e.target.name, e.target.value);
   };
 
-  const updateOptions = (key: string, value: string | number | boolean) => {
+  const updateOptions = (key: string, value: string | number | boolean | Array<string>) => {
     setOptions((prevOptions) => {
       return { ...prevOptions, [key]: value };
     });
@@ -127,13 +125,22 @@ export default function FunEmoji() {
       if (key === "size") {
         return;
       }
-      optionParams += "&" + key + "=" + options[key];
-      // optionParams += `&${key}=` + options[key];
+
+      // backgroundColorのとき、配列を展開してGetパラメーター用にデータ加工する
+      if (key === "backgroundColor") {
+        let newBgColorValue = "";
+        options[key]?.forEach((bgColor) => {
+          newBgColorValue += bgColor + ",";
+        });
+        optionParams += "&" + key + "=" + newBgColorValue;
+      } else {
+        optionParams += "&" + key + "=" + options[key];
+      }
     });
     setAvatarUrl(`https://api.dicebear.com/8.x/fun-emoji/svg?seed=${seed}${optionParams}`);
   }, [seed, options, optionParams]);
 
-  console.log(avatarUrl);
+  console.log(options);
 
   useEffect(() => {
     generateAvatar();
@@ -142,6 +149,8 @@ export default function FunEmoji() {
   return (
     <section className="mx-auto my-8 max-h-screen w-11/12 rounded-lg bg-gray-100 p-8">
       <div className="h-2/5">
+        {/* <p>{avatarUrl}</p>
+        <p>{optionParams}</p> */}
         {/* <h1 className="text-center text-3xl font-bold">Fun Emoji Avatar Generator</h1> */}
 
         {avatarUrl && (
@@ -160,14 +169,11 @@ export default function FunEmoji() {
       </div>
 
       <div className="mt-7 h-3/5 space-y-8  border-t border-gray-300 pt-7">
-        <div className="space-y-8 overflow-y-auto mixin/field-layout:flex mixin/field-layout:items-center mixin/field-layout:gap-3 mixin/label:text-sm mixin/label:font-bold">
+        <div className="space-y-8 overflow-y-auto mixin/field-layout:flex mixin/list-layout:grid mixin/list-layout:grid-cols-3 mixin/field-layout:items-center mixin/field-layout:gap-3 mixin/list-layout:gap-x-10 mixin/list-layout:gap-y-6 mixin/label:text-sm mixin/label:font-bold">
           <div className="">
-            <ul className="grid grid-cols-3 gap-6">
+            <ul className="mixin/list-layout">
               <li className="mixin/field-layout">
                 <Flip handleCheckboxChange={handleCheckboxChange} />
-              </li>
-              <li className="mixin/field-layout">
-                <BackgroundColor handleColorChange={handleColorChange} />
               </li>
             </ul>
           </div>
@@ -179,7 +185,7 @@ export default function FunEmoji() {
                   mixin/label-area:items-center mixin/label-area:justify-between
                   mixin/num:text-xs"
             >
-              <ul className="grid grid-cols-3 gap-6">
+              <ul className="mixin/list-layout">
                 <li>
                   <Rotate handleRangeChange={handleRangeChange} rotate={rotate} />
                 </li>
@@ -213,14 +219,20 @@ export default function FunEmoji() {
               </ul>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <BackgroundType handleRadioChange={handleRadioChange} />
+          <div>
+            <BackgroundType
+              handleRadioChange={handleRadioChange}
+              backgroundType={backgroundType}
+              setBackgroundType={setBackgroundType}
+              setBackgroundColor={setBackgroundColor}
+              updateOptions={updateOptions}
+            />
           </div>
           <div
             className="
             mixin/icon-radio:peer
-            mixin/icon-label:block mixin/icon-list:grid
-            mixin/icon-radio:hidden mixin/icon-list:grid-flow-col-dense mixin/icon-list:gap-2 mixin/icon-label:border-[#2196f3]"
+            space-y-6 mixin/icon-label:inline-block
+            mixin/icon-list:grid mixin/icon-radio:hidden mixin/icon-list:grid-flow-col-dense mixin/icon-list:gap-2 mixin/icon-label:border-[#2196f3] mixin/icon-label:hover:cursor-pointer"
           >
             <Eyes handleRadioChange={handleRadioChange} optionIconSize={optionIconSize} />
             <Mouth handleRadioChange={handleRadioChange} optionIconSize={optionIconSize} />

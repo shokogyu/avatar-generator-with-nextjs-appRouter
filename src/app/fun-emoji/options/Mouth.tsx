@@ -9,8 +9,8 @@ type Props = {
 
 const Mouth = (props: Props) => {
   return (
-    <div>
-      <p>Mouth</p>
+    <div className="space-y-1">
+      <p className="mixin/label">口のタイプ</p>
       <ul className="mixin/icon-list">
         {Object.entries(MouthStyle).map(([key, value]) => (
           <li key={key}>

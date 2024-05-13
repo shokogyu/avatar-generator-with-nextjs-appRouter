@@ -38,7 +38,7 @@ export const Header = () => {
   ];
 
   return (
-    <header className="fixed left-0 top-0 h-screen w-1/4 space-y-8 border-r border-r-indigo-300 p-4 pt-9">
+    <header className="fixed left-0 top-0 h-screen w-1/6 space-y-8 border-r border-r-indigo-300 p-4 pl-6 pt-9">
       <Link href="/" className="text-4xl font-black">
         Fun Avatar
         <br />

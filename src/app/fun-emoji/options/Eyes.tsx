@@ -9,8 +9,8 @@ type Props = {
 
 const Eyes = (props: Props) => {
   return (
-    <div>
-      <p>Eyes</p>
+    <div className="space-y-1">
+      <p className="mixin/label">目のタイプ</p>
       <ul className="mixin/icon-list">
         {Object.entries(EyeStyle).map(([key, value]) => (
           <li key={key}>
