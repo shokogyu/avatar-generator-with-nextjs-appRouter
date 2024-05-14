@@ -4,13 +4,11 @@ import { useEffect, useState } from "react";
 
 import { DownloadButton } from "@/components/DownloadButton";
 
-console.log("aaaa");
-
 export default function Minotar() {
   const [user, setUser] = useState("steve"); // username or uuid
   const [uuid, setUuid] = useState(""); // username or uuid
   const [avatarUrl, setAvatarUrl] = useState("https://minotar.net/avatar/steve");
-  const [downloadUrl, setDownloadUrl] = useState("");
+  // const [downloadUrl, setDownloadUrl] = useState("");
 
   const fetchData = async (userInfo: string) => {
     try {
@@ -50,13 +48,10 @@ export default function Minotar() {
   };
 
   const handleGenerateAvatarByUuid = () => {
-    console.log("uuid", uuid);
     getRandomUUID();
-    console.log("uuid2", uuid);
     if (uuid) {
       fetchData(uuid);
     }
-    console.log("uuid3", uuid);
   };
 
   return (

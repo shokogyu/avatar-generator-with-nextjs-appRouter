@@ -1,12 +1,5 @@
 "use client";
 
-import { ChangeEventHandler, MouseEventHandler, useCallback, useEffect, useMemo, useState } from "react";
-import Image from "next/image";
-
-// import { saveAs } from "file-saver";
-
-import { DownloadButton } from "@/components/DownloadButton";
-
 export default function Home() {
   return (
     <div className="space-y-10">

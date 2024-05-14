@@ -30,10 +30,6 @@ export default function Pravatar() {
     generateAvatar();
   }, [generateAvatar, imgId, size]);
 
-  console.log(imgId);
-  console.log(size);
-  console.log(avatarUrl);
-
   return (
     <div>
       <h1>Minotar Avatar Generator</h1>
